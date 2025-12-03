@@ -1,61 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+
 body {
-    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #171717, #222);
+    font-family: "Poppins", sans-serif;
+    color: white;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background-color: #f0f0f0;
-    margin: 0;
+    height: 100vh;
 }
 
 .container {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+    width: 350px;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+    animation: fadeIn 1s ease-in-out;
 }
 
-.display {
-    font-size: 3em;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.title {
+    font-size: 28px;
     margin-bottom: 20px;
+    letter-spacing: 2px;
 }
 
-.controls button {
+.stopwatch {
+    padding: 20px 0;
+}
+
+#display {
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: 3px;
+}
+
+.buttons button {
     padding: 10px 20px;
-    margin: 5px;
-    font-size: 1em;
-    cursor: pointer;
+    margin: 10px 5px;
+    font-size: 15px;
     border: none;
-    border-radius: 5px;
-    background-color: #007bff;
+    border-radius: 10px;
+    cursor: pointer;
     color: white;
+    transition: 0.3s;
 }
 
-.controls button:hover {
-    background-color: #0056b3;
+#startPause {
+    background: #28a745;
 }
 
-.laps {
+#startPause:hover {
+    background: #1e7e34;
+}
+
+#reset {
+    background: #dc3545;
+}
+
+#reset:hover {
+    background: #b52a37;
+}
+
+#lap {
+    background: #007bff;
+}
+
+#lap:hover {
+    background: #0056b3;
+}
+
+.lap-title {
     margin-top: 20px;
-    text-align: left;
+    font-size: 20px;
+    text-decoration: underline;
 }
 
-#lapList {
+#laps {
     list-style: none;
     padding: 0;
     max-height: 150px;
     overflow-y: auto;
-    border: 1px solid #eee;
-    padding: 10px;
-    border-radius: 5px;
 }
 
-#lapList li {
-    padding: 5px 0;
-    border-bottom: 1px solid #eee;
-}
-
-#lapList li:last-child {
-    border-bottom: none;
+#laps li {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px;
+    margin: 6px 0;
+    border-radius: 8px;
+    font-size: 14px;
 }

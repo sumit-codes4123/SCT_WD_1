@@ -1,84 +1,58 @@
-let startTime;
-let elapsedTime = 0;
-let timerInterval;
-let lapCounter = 0;
+let startTime, interval;
+let running = false;
 
-const displayHours = document.getElementById('hours');
-const displayMinutes = document.getElementById('minutes');
-const displaySeconds = document.getElementById('seconds');
-const displayMilliseconds = document.getElementById('milliseconds');
-const startBtn = document.getElementById('startBtn');
-const pauseBtn = document.getElementById('pauseBtn');
-const resetBtn = document.getElementById('resetBtn');
-const lapBtn = document.getElementById('lapBtn');
-const lapList = document.getElementById('lapList');
+let display = document.getElementById("display");
+let startPauseBtn = document.getElementById("startPause");
+let resetBtn = document.getElementById("reset");
+let lapBtn = document.getElementById("lap");
+let laps = document.getElementById("laps");
+
+let elapsedTime = 0;
 
 function formatTime(ms) {
-    const totalSeconds = Math.floor(ms / 1000);
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-    const milliseconds = Math.floor((ms % 1000) / 10); // Displaying in centiseconds
+    let totalSeconds = Math.floor(ms / 1000);
+    let minutes = String(Math.floor(totalSeconds / 60)).padStart(2, "0");
+    let seconds = String(totalSeconds % 60).padStart(2, "0");
+    let milliseconds = String(Math.floor((ms % 1000) / 10)).padStart(2, "0");
 
-    return {
-        hours: String(hours).padStart(2, '0'),
-        minutes: String(minutes).padStart(2, '0'),
-        seconds: String(seconds).padStart(2, '0'),
-        milliseconds: String(milliseconds).padStart(2, '0')
-    };
+    return `${minutes} : ${seconds} . ${milliseconds}`;
 }
 
-function updateDisplay() {
-    const formatted = formatTime(elapsedTime);
-    displayHours.textContent = formatted.hours;
-    displayMinutes.textContent = formatted.minutes;
-    displaySeconds.textContent = formatted.seconds;
-    displayMilliseconds.textContent = formatted.milliseconds;
-}
+startPauseBtn.addEventListener("click", () => {
+    if (!running) {
+        running = true;
+        startPauseBtn.textContent = "Pause";
+        startPauseBtn.style.background = "#ffc107";
+        lapBtn.disabled = false;
 
-function startStopwatch() {
-    startTime = Date.now() - elapsedTime;
-    timerInterval = setInterval(() => {
-        elapsedTime = Date.now() - startTime;
-        updateDisplay();
-    }, 10); // Update every 10 milliseconds for centisecond precision
-    startBtn.disabled = true;
-    pauseBtn.disabled = false;
-    lapBtn.disabled = false;
-}
+        startTime = Date.now() - elapsedTime;
 
-function pauseStopwatch() {
-    clearInterval(timerInterval);
-    startBtn.disabled = false;
-    pauseBtn.disabled = true;
-    lapBtn.disabled = true; // Disable lap when paused
-}
+        interval = setInterval(() => {
+            elapsedTime = Date.now() - startTime;
+            display.textContent = formatTime(elapsedTime);
+        }, 10);
+    } else {
+        running = false;
+        startPauseBtn.textContent = "Resume";
+        startPauseBtn.style.background = "#17a2b8";
+        clearInterval(interval);
+    }
+});
 
-function resetStopwatch() {
-    clearInterval(timerInterval);
+resetBtn.addEventListener("click", () => {
+    running = false;
+    clearInterval(interval);
+
     elapsedTime = 0;
-    lapCounter = 0;
-    updateDisplay();
-    lapList.innerHTML = '';
-    startBtn.disabled = false;
-    pauseBtn.disabled = true;
+    display.textContent = "00 : 00 : 00 . 00";
+    startPauseBtn.textContent = "Start";
+    startPauseBtn.style.background = "#28a745";
     lapBtn.disabled = true;
-}
+    laps.innerHTML = "";
+});
 
-function recordLap() {
-    lapCounter++;
-    const formatted = formatTime(elapsedTime);
-    const lapTime = `${formatted.hours}:${formatted.minutes}:${formatted.seconds}.${formatted.milliseconds}`;
-    const listItem = document.createElement('li');
-    listItem.textContent = `Lap ${lapCounter}: ${lapTime}`;
-    lapList.appendChild(listItem);
-}
-
-startBtn.addEventListener('click', startStopwatch);
-pauseBtn.addEventListener('click', pauseStopwatch);
-resetBtn.addEventListener('click', resetStopwatch);
-lapBtn.addEventListener('click', recordLap);
-
-// Initial state
-pauseBtn.disabled = true;
-lapBtn.disabled = true;
+lapBtn.addEventListener("click", () => {
+    let li = document.createElement("li");
+    li.textContent = `Lap: ${formatTime(elapsedTime)}`;
+    laps.appendChild(li);
+});

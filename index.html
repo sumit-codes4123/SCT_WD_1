@@ -3,26 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stopwatch</title>
+    <title>Modern Stopwatch</title>
     <link rel="stylesheet" href="stopwatch.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Stopwatch</h1>
-        <div class="display">
-            <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>.<span id="milliseconds">00</span>
-        </div>
-        <div class="controls">
-            <button id="startBtn">Start</button>
-            <button id="pauseBtn">Pause</button>
-            <button id="resetBtn">Reset</button>
-            <button id="lapBtn">Lap</button>
-        </div>
-        <div class="laps">
-            <h2>Lap Times</h2>
-            <ul id="lapList"></ul>
-        </div>
+
+<div class="container">
+    <h1 class="title">STOPWATCH</h1>
+
+    <div class="stopwatch">
+        <div id="display">00 : 00 : 00 . 00</div>
     </div>
-    <script src="stopwatch.js"></script>
+
+    <div class="buttons">
+        <button id="startPause">Start</button>
+        <button id="reset">Reset</button>
+        <button id="lap" disabled>Lap</button>
+    </div>
+
+    <h2 class="lap-title">Lap Times</h2>
+    <ul id="laps"></ul>
+</div>
+
+<script src="stopwatch.js"></script>
 </body>
 </html>
